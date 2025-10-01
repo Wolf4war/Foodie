@@ -4,7 +4,7 @@ A responsive Vue 3 web application built with Vite, TailwindCSS, Vue Router, and
 
 ## 📸 Application Preview
 
-![Foodie Homepage](./src/assets/Foodie%20Homepage.jpg)
+![Foodie Homepage](./src/assets/Foodie%20Homepage.png)
 
 *Beautiful, responsive design with intuitive search functionality and modern UI*
 

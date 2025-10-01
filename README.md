@@ -98,6 +98,12 @@ Uses TheMealDB API endpoints:
 
 ## 🚀 Getting Started
 
+### Prerequisites
+- **Node.js** (v18+ recommended) - [Download](https://nodejs.org/)
+- **npm** or **yarn** package manager
+- **Docker** (v20+) - [Install Docker](https://docs.docker.com/get-docker/)
+- **Docker Compose** (v2+) - [Install Compose](https://docs.docker.com/compose/install/)
+
 ### Development Setup
 
 1. **Install dependencies:**
@@ -109,6 +115,7 @@ Uses TheMealDB API endpoints:
    ```bash
    npm run dev
    ```
+   **Access at**: http://localhost:5173
 
 3. **Build for production:**
    ```bash
@@ -122,41 +129,78 @@ Uses TheMealDB API endpoints:
 
 ### 🐳 Docker Deployment
 
-#### Quick Start with Docker Compose
+#### Prerequisites
+- Install [Docker](https://docs.docker.com/get-docker/) (v20+ recommended)
+- Install [Docker Compose](https://docs.docker.com/compose/install/) (v2+)
+
+#### Docker Setup Overview
+- **Production container**: Uses Nginx to serve the optimized Vue build
+- **Development container**: Runs Vite dev server with hot reload
+- **Multi-stage build**: Separates build and runtime environments for smaller images
+
+---
+
+#### 🚀 Quick Start with Docker Compose
 ```bash
 # Build and run production container
 docker-compose up --build
-
-# Access the app at http://localhost:8080
 ```
+**Access the app at**: http://localhost:8080
 
-#### Manual Docker Commands
+#### 🛠️ Manual Docker Commands
 ```bash
 # Build the Docker image
 docker build -t foodie-app .
 
 # Run the container
 docker run -d -p 8080:80 --name foodie-production foodie-app
-
-# Access the app at http://localhost:8080
 ```
+**Access the app at**: http://localhost:8080
 
-#### Development with Docker
+#### 💻 Development with Docker
 ```bash
-# Run development environment
+# Run development environment (Vite hot-reload)
 docker-compose --profile dev up --build foodie-dev
-
-# Access the app at http://localhost:5173
 ```
+**Access the app at**: http://localhost:5173
 
-### 🚢 Production Features
-- **Multi-stage build** for optimized image size
-- **Nginx** web server with optimized configuration
+#### 🚢 Production Features
+- **Multi-stage build** for optimized image size (~50MB final image)
+- **Nginx** web server with production-ready configuration
 - **Vue Router history mode** support with proper fallbacks
 - **Gzip compression** enabled for better performance
-- **Security headers** included
+- **Security headers** included (X-Frame-Options, CSP, etc.)
 - **Static asset caching** for improved load times
-- **Health check endpoint** at `/health`
+- **Health check endpoint** at `/health` for monitoring
+
+#### 🔧 Container Management
+```bash
+# Check running containers
+docker ps
+
+# View logs
+docker logs foodie-production
+
+# Stop and remove containers
+docker-compose down
+
+# Rebuild after code changes
+docker-compose up --build
+
+# Test health check
+curl http://localhost:8080/health
+```
+
+#### 🧪 Testing the Application
+Once running, you can test all features:
+
+1. **Search Functionality**: Try searching for "chicken", "pasta", or "cake"
+2. **Categories**: Browse meal categories and click to filter meals
+3. **Meal Details**: Click any meal card to view detailed recipe information
+4. **Navigation**: Test responsive navigation on different screen sizes
+5. **API Integration**: All data is fetched from [TheMealDB API](https://www.themealdb.com/)
+
+**Health Check**: Visit http://localhost:8080/health (should return "healthy")
 
 ## 🌟 Future Enhancements
 

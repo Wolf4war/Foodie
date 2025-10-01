@@ -98,6 +98,8 @@ Uses TheMealDB API endpoints:
 
 ## 🚀 Getting Started
 
+### Development Setup
+
 1. **Install dependencies:**
    ```bash
    npm install
@@ -117,6 +119,44 @@ Uses TheMealDB API endpoints:
    ```bash
    npm run preview
    ```
+
+### 🐳 Docker Deployment
+
+#### Quick Start with Docker Compose
+```bash
+# Build and run production container
+docker-compose up --build
+
+# Access the app at http://localhost:8080
+```
+
+#### Manual Docker Commands
+```bash
+# Build the Docker image
+docker build -t foodie-app .
+
+# Run the container
+docker run -d -p 8080:80 --name foodie-production foodie-app
+
+# Access the app at http://localhost:8080
+```
+
+#### Development with Docker
+```bash
+# Run development environment
+docker-compose --profile dev up --build foodie-dev
+
+# Access the app at http://localhost:5173
+```
+
+### 🚢 Production Features
+- **Multi-stage build** for optimized image size
+- **Nginx** web server with optimized configuration
+- **Vue Router history mode** support with proper fallbacks
+- **Gzip compression** enabled for better performance
+- **Security headers** included
+- **Static asset caching** for improved load times
+- **Health check endpoint** at `/health`
 
 ## 🌟 Future Enhancements
 

@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  foodie-app:
+    build: .
+    ports:
+      - "8080:80"
+    container_name: foodie-production
+    restart: unless-stopped
+    labels:
+      - "com.foodie.description=Foodie Recipe Discovery App"
+      - "com.foodie.version=1.0.0"
+    
+  # Development service (optional)
+  foodie-dev:
+    build:
+      context: .
+      target: build-stage
+    ports:
+      - "5173:5173"
+    container_name: foodie-development
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: npm run dev -- --host
+    profiles:
+      - dev

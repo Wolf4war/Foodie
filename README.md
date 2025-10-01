@@ -2,6 +2,36 @@
 
 A responsive Vue 3 web application built with Vite, TailwindCSS, Vue Router, and Axios that uses TheMealDB API to discover and explore amazing recipes from around the world.
 
+## 📸 Application Preview
+
+![Foodie Homepage](./src/assets/Foodie%20Homepage.jpg)
+
+*Beautiful, responsive design with intuitive search functionality and modern UI*
+
+![Foodie Homepage](./docs/homepage-screenshot.png)
+
+*Beautiful, responsive design with intuitive search functionality and modern UI*
+
+## ✨ Key Highlights
+
+- 🎨 **Modern Design**: Clean, responsive interface with orange gradient theme
+- 🔍 **Smart Search**: Real-time meal search with autocomplete suggestions
+- 📱 **Mobile-First**: Fully responsive design that works on all devices
+- 🚀 **Fast Performance**: Optimized Vue 3 + Vite build for lightning-fast loading
+- 🐳 **Docker Ready**: Production-ready containerization with Nginx
+- 🌐 **Live Data**: Real-time data from TheMealDB API
+
+## 🚀 Features
+
+## ✨ Live Demo Features
+
+- 🎨 **Modern UI/UX**: Clean, responsive design with orange gradient theme
+- 🔍 **Smart Search**: Real-time meal search with instant results
+- 📱 **Mobile-First**: Fully responsive across all device sizes
+- 🧭 **Intuitive Navigation**: Easy-to-use header with clear routing
+- 🍽️ **Rich Content**: Detailed meal information with ingredients and instructions
+- 🚀 **Fast Performance**: Optimized with Vite and production-ready Docker setup
+
 ## 🚀 Features
 
 ### Home Page
@@ -201,6 +231,37 @@ Once running, you can test all features:
 5. **API Integration**: All data is fetched from [TheMealDB API](https://www.themealdb.com/)
 
 **Health Check**: Visit http://localhost:8080/health (should return "healthy")
+
+## 🎯 Live Demo Experience
+
+Once running, you can experience the full functionality:
+
+### 🔍 **Search Experience**
+- Type "chicken", "pasta", or "cake" in the search bar
+- See instant results with beautiful meal cards
+- Click any meal to view detailed recipes
+
+### 📂 **Browse Categories**
+- Navigate to Categories page to see all cuisine types
+- Click any category to filter meals by cuisine
+- Explore different international recipes
+
+### 📄 **Recipe Details**
+- View complete ingredient lists with measurements
+- Follow step-by-step cooking instructions
+- Watch embedded YouTube cooking videos (when available)
+
+## 📸 Screenshots & Demo
+
+The application features a modern, responsive design:
+
+- **Homepage**: Beautiful orange gradient hero section with search functionality
+- **Navigation**: Clean header with star logo and responsive mobile menu
+- **Search Results**: Grid-based meal cards with hover effects
+- **Meal Details**: Full recipe pages with ingredients and instructions
+- **Categories**: Organized browsing by meal categories
+
+*Screenshot shows the development server running at http://localhost:5173*
 
 ## 🌟 Future Enhancements
 

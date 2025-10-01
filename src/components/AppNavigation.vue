@@ -5,9 +5,9 @@
         <div class="flex items-center">
           <router-link to="/" class="flex items-center space-x-2">
             <svg class="w-8 h-8 text-orange-500" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M18.06 23h1.66c.84 0 1.53-.64 1.63-1.46L23 5.05h-5V1h-1c-1.1 0-2 .9-2 2v2H5V3c0-1.1-.9-2-2-2H2v4.05H0l1.65 16.49c.1.82.79 1.46 1.63 1.46h1.66l1.06-10.61h10l1.06 10.61z"/>
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
             </svg>
-            <span class="text-xl font-bold text-gray-800">MealDB</span>
+            <span class="text-xl font-bold text-gray-800">Foodie</span>
           </router-link>
         </div>
         

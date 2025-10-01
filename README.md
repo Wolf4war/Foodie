@@ -1,4 +1,4 @@
-# MealDB - Recipe Discovery App
+# Foodie - Recipe Discovery App
 
 A responsive Vue 3 web application built with Vite, TailwindCSS, Vue Router, and Axios that uses TheMealDB API to discover and explore amazing recipes from around the world.
 
@@ -130,3 +130,7 @@ Uses TheMealDB API endpoints:
 ## 📄 License
 
 This project is built for educational purposes using the free TheMealDB API.
+
+---
+
+Made with ❤️ by Wolf4war - **Foodie: Where recipes come to life!**

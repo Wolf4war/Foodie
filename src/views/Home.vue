@@ -4,10 +4,10 @@
     <div class="bg-gradient-to-r from-orange-500 to-red-500 py-16">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <h1 class="text-4xl md:text-6xl font-bold text-white mb-4">
-          Discover Amazing Meals
+          Welcome to Foodie
         </h1>
         <p class="text-xl text-orange-100 mb-8 max-w-2xl mx-auto">
-          Search through thousands of delicious recipes from around the world
+          Your ultimate destination for discovering amazing recipes from around the world
         </p>
         <SearchBar @search="handleSearch" />
       </div>
@@ -53,7 +53,7 @@
         <svg class="w-24 h-24 mx-auto text-orange-500 mb-4" fill="currentColor" viewBox="0 0 24 24">
           <path d="M18.06 23h1.66c.84 0 1.53-.64 1.63-1.46L23 5.05h-5V1h-1c-1.1 0-2 .9-2 2v2H5V3c0-1.1-.9-2-2-2H2v4.05H0l1.65 16.49c.1.82.79 1.46 1.63 1.46h1.66l1.06-10.61h10l1.06 10.61z"/>
         </svg>
-        <h3 class="text-2xl font-semibold text-gray-800 mb-2">Welcome to MealDB</h3>
+        <h3 class="text-2xl font-semibold text-gray-800 mb-2">Welcome to Foodie</h3>
         <p class="text-gray-600 mb-8">Start by searching for your favorite meals above</p>
         
         <!-- Quick suggestions -->

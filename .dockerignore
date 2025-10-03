@@ -1,21 +1,23 @@
 # Node modules and build outputs
 node_modules
 dist
+.git
+.dockerignore
+Dockerfile*
+docker-compose.yml
+.vscode
+.DS_Store
+npm-debug.log
+
+# Additional exclusions for lean images
+.gitignore
+*.md
+docs/
 .npm
 *.log
-
-# Git files
-.git
-.gitignore
-
-# IDE files
-.vscode
 .idea
 *.swp
 *.swo
-
-# OS files
-.DS_Store
 Thumbs.db
 
 # Environment files
@@ -23,19 +25,9 @@ Thumbs.db
 .env.local
 .env.*.local
 
-# Docker files
-Dockerfile*
-docker-compose*
-
-# Documentation
-README.md
-docs/
-
 # Test files
 tests/
 __tests__/
 *.test.js
 *.spec.js
-
-# Coverage reports
 coverage/

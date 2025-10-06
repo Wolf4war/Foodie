@@ -1,0 +1,18 @@
+# Example configuration for Foodie Infrastructure
+# Copy this file to terraform.tfvars and customize the values
+
+# AWS Configuration
+aws_region   = "us-east-1"
+project_name = "foodie"
+environment  = "dev"
+
+# Network Configuration
+vpc_cidr           = "10.0.0.0/16"
+public_subnet_cidr = "10.0.1.0/24"
+
+# EC2 Configuration
+# IMPORTANT: Replace with your actual AWS key pair name
+key_name = "your-key-pair-name"
+
+# Example: If your key pair is named "my-foodie-key", set:
+# key_name = "my-foodie-key"

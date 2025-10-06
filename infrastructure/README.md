@@ -105,7 +105,7 @@ terraform output ssh_command
 
 | Variable | Description | Default | Required |
 |----------|-------------|---------|----------|
-| `aws_region` | AWS region for deployment | `us-east-1` | No |
+| `aws_region` | AWS region for deployment | `eu-north-1` | No |
 | `project_name` | Project name prefix | `foodie` | No |
 | `environment` | Environment tag | `dev` | No |
 | `vpc_cidr` | VPC CIDR block | `10.0.0.0/16` | No |

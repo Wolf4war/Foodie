@@ -10,7 +10,7 @@ project_name = "foodie"
 environment  = "dev"
 
 # AWS Configuration  
-aws_region = "us-east-1"
+aws_region = "eu-north-1"  # Europe (Stockholm)
 
 # Network Configuration
 vpc_cidr           = "10.0.0.0/16"

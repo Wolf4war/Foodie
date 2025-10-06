@@ -38,7 +38,7 @@ Value: Terraform
 Category: Terraform variable
 
 Variable Name: aws_region
-Value: us-east-1
+Value: eu-north-1
 Category: Terraform variable
 
 Variable Name: project_name
@@ -107,7 +107,7 @@ ssh_command = "ssh -i ~/.ssh/Terraform.pem ec2-user@3.145.123.456"
 
 **2. "Key pair does not exist"** 
 - Verify key pair "Terraform" exists in AWS EC2 Console
-- Must be in the same region (us-east-1)
+- Must be in the same region (eu-north-1)
 - Create if missing: AWS Console → EC2 → Key Pairs
 
 **3. "Working directory not found"**

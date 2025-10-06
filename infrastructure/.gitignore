@@ -2,7 +2,15 @@
 *.tfstate
 *.tfstate.*
 *.tfplan
-*.tfvars
+
+# Environment files - NEVER commit credentials!
+.env
+.env.*
+*.env
+!.env.example
+
+# Allow safe terraform.tfvars (no credentials - they go in Terraform Cloud)
+!terraform.tfvars
 !terraform.tfvars.example
 
 # Crash log files

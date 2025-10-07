@@ -6,10 +6,10 @@ terraform {
   
   # Terraform Cloud Configuration
   cloud {
-    organization = "YOUR_ORG_NAME"  # Replace with your Terraform Cloud org name
+    organization = "Wolf4War"  # Your Terraform Cloud org name
     
     workspaces {
-      name = "foodie-infrastructure"
+      name = "foodie-app"
     }
   }
   
@@ -24,14 +24,14 @@ terraform {
     region = var.aws_region
     }
 
-    # Data source to get the latest Amazon Linux 2 AMI
-    data "aws_ami" "amazon_linux" {
+    # Data source to get the latest Ubuntu 22.04 LTS AMI (Free Tier Eligible)
+    data "aws_ami" "ubuntu" {
     most_recent = true
-    owners      = ["amazon"]
+    owners      = ["099720109477"] # Canonical
 
     filter {
         name   = "name"
-        values = ["amzn2-ami-hvm-*-x86_64-gp2"]
+        values = ["ubuntu/images/hvm-ssd/ubuntu-22.04-amd64-server-*"]
     }
 
     filter {
@@ -147,7 +147,7 @@ terraform {
 
     # EC2 Instance
     resource "aws_instance" "foodie_instance" {
-    ami                    = data.aws_ami.amazon_linux.id
+    ami                    = data.aws_ami.ubuntu.id
     instance_type          = "t2.micro"
     key_name               = var.key_name
     subnet_id              = aws_subnet.foodie_public_subnet.id
@@ -155,10 +155,13 @@ terraform {
 
     user_data = <<-EOF
         #!/bin/bash
-        yum update -y
-        yum install -y httpd
-        systemctl start httpd
-        systemctl enable httpd
+        apt update -y
+        apt install -y docker.io nginx curl
+        systemctl start docker
+        systemctl enable docker
+        systemctl start nginx
+        systemctl enable nginx
+        usermod -aG docker ubuntu
         
         # Create a simple HTML page
         cat > /var/www/html/index.html << 'HTML'
@@ -167,7 +170,7 @@ terraform {
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Foodie App - DevOps Assessment</title>
+            <title>Foodie App - Ready for CI/CD</title>
             <style>
                 body { font-family: Arial, sans-serif; margin: 40px; background: #f5f5f5; }
                 .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
@@ -178,29 +181,29 @@ terraform {
         </head>
         <body>
             <div class="container">
-                <h1>🍽️ Foodie App</h1>
+                <h1>🍽️ Foodie App Infrastructure</h1>
                 <div class="status">
-                    ✅ Infrastructure Successfully Deployed!
+                    ✅ EC2 Instance Ready for CI/CD Deployment!
                 </div>
                 <div class="info">
-                    <strong>DevOps Assessment - Task 3: Infrastructure as Code</strong><br>
-                    EC2 Instance is running and accessible via HTTP
-                </div>
-                <div class="info">
-                    <strong>Instance Details:</strong><br>
+                    <strong>Infrastructure Details:</strong><br>
+                    • Region: us-east-1 (Virginia)<br>
                     • Instance Type: t2.micro (Free Tier)<br>
-                    • OS: Amazon Linux 2<br>
-                    • Web Server: Apache HTTP Server<br>
-                    • Status: Active ✅
+                    • OS: Ubuntu 22.04 LTS<br>
+                    • Docker: Installed and Ready<br>
+                    • Web Server: Nginx<br>
+                    • Key Pair: Foodie<br>
+                    • Status: Awaiting CI/CD Pipeline ✅
                 </div>
+                <p><strong>Ready for GitHub Actions deployment!</strong></p>
                 <p><strong>Server Time:</strong> $(date)</p>
             </div>
         </body>
         </html>
     HTML
         
-        # Set proper permissions
-        chown -R apache:apache /var/www/html
+        # Set proper permissions for nginx
+        chown -R www-data:www-data /var/www/html
         chmod -R 755 /var/www/html
     EOF
 

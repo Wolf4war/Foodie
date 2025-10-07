@@ -4,7 +4,7 @@
 variable "aws_region" {
   description = "AWS region for resources"
   type        = string
-  default     = "eu-north-1"  # Europe (Stockholm)
+  default     = "us-east-1"  # US East (Virginia) - Free tier eligible
 }
 
 variable "project_name" {
@@ -34,7 +34,7 @@ variable "public_subnet_cidr" {
 variable "key_name" {
   description = "Name of the AWS key pair for EC2 access"
   type        = string
-  default     = ""
+  default     = "Foodie"
   validation {
     condition = length(var.key_name) > 0
     error_message = "Key name must be provided for EC2 SSH access."

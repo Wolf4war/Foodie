@@ -26,7 +26,7 @@ jobs:
       run: sudo docker rm -f foodie || true
     
     - name: Run the Docker image (t2.micro optimized)
-      run: sudo docker run -d -p 80:80 --name foodie --memory="800m" --restart=unless-stopped wolf4war/foodie:latest
+      run: sudo docker run -d -p 8080:80 --name foodie --memory="800m" --restart=unless-stopped wolf4war/foodie:latest
     
     - name: Wait for application to be ready
       run: |
@@ -34,7 +34,7 @@ jobs:
         timeout=60
         counter=0
         while [ $counter -lt $timeout ]; do
-          if curl -f -s http://localhost:80 > /dev/null 2>&1; then
+          if curl -f -s http://localhost:8080 > /dev/null 2>&1; then
             echo "✅ Application is ready!"
             break
           fi
@@ -50,5 +50,5 @@ jobs:
     - name: Display deployment info
       run: |
         echo "✅ Free Tier Deployment successful!"
-        echo "🔗 Application URL: http://$(curl -s --max-time 5 http://checkip.amazonaws.com/ || echo 'N/A')"
+        echo "🔗 Application URL: http://$(curl -s --max-time 5 http://checkip.amazonaws.com/ || echo 'N/A'):8080"
         echo "🆓 Running on AWS Free Tier t2.micro"

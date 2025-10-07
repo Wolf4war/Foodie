@@ -12,10 +12,17 @@ import AppNavigation from './components/AppNavigation.vue'
 </template>
 
 <style>
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family:
+    'Inter',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    sans-serif;
 }
 
 #app {

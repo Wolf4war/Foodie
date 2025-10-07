@@ -1,0 +1,38 @@
+dist
+dist-ssr
+coverage
+.nyc_output
+.cache
+.parcel-cache
+.next
+.nuxt
+.out
+.swc
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+.DS_Store
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Infrastructure files
+infrastructure/
+*.tf
+*.tfvars
+*.sh

@@ -12,14 +12,10 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <!-- Loading State -->
       <LoadingSpinner v-if="loading" message="Loading categories..." />
-      
+
       <!-- Error State -->
-      <ErrorMessage 
-        v-else-if="error" 
-        :message="error" 
-        @retry="fetchCategories"
-      />
-      
+      <ErrorMessage v-else-if="error" :message="error" @retry="fetchCategories" />
+
       <!-- Categories Grid -->
       <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         <div
@@ -42,7 +38,7 @@
               </h3>
             </div>
           </div>
-          
+
           <div class="p-4">
             <p class="text-sm text-gray-600 line-clamp-3">
               {{ category.strCategoryDescription }}
@@ -50,7 +46,12 @@
             <div class="mt-3 flex items-center text-orange-500">
               <span class="text-sm font-medium">Explore recipes</span>
               <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 5l7 7-7 7"
+                ></path>
               </svg>
             </div>
           </div>
@@ -73,7 +74,7 @@ const categories = ref([])
 const fetchCategories = async () => {
   loading.value = true
   error.value = ''
-  
+
   try {
     const response = await mealService.getCategories()
     categories.value = response.data.categories || []

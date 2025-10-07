@@ -85,7 +85,7 @@ import SearchBar from '../components/SearchBar.vue'
 import MealCard from '../components/MealCard.vue'
 import LoadingSpinner from '../components/LoadingSpinner.vue'
 import ErrorMessage from '../components/ErrorMessage.vue'
-import mealService from '../services/api.js'
+import { mealService } from '../services/api.js'
 
 const loading = ref(false)
 const error = ref('')

@@ -9,6 +9,16 @@
 .env
 .env.local
 
+# Scripts and examples (assessment - only keep core terraform files)
+terraform.tfvars.example
+.env.example
+user_data.sh
+*.sh
+
+# Logs and temporary files
+*.log
+*.tmp
+
 # Crash log files
 crash.log
 

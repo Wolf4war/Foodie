@@ -276,3 +276,5 @@ This project is built for educational purposes using the free TheMealDB API.
 ---
 
 Made with ❤️ by Wolf4war - **Foodie: Where recipes come to life!**
+< ! - -   C I / C D   T e s t :   1 0 / 0 7 / 2 0 2 5   1 6 : 5 8 : 3 8   - - >  
+ 

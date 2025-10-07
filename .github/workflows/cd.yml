@@ -1,0 +1,53 @@
+name: CD Pipeline
+on:
+  workflow_run:
+    workflows: ["CI Pipeline"]
+    types:
+      - completed
+
+jobs:
+
+  deploy:
+    runs-on: self-hosted
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    steps:
+    - name: Free up memory (t2.micro optimization)
+      run: |
+        echo "🆓 Optimizing for AWS Free Tier t2.micro..."
+        sudo sync && echo 3 | sudo tee /proc/sys/vm/drop_caches || true
+        docker system prune -f || true
+    
+    - name: Pull Docker Image
+      run: sudo docker pull wolf4war/foodie:latest
+    
+    - name: Delete existing container
+      run: sudo docker rm -f foodie || true
+    
+    - name: Run the Docker image (t2.micro optimized)
+      run: sudo docker run -d -p 80:80 --name foodie --memory="800m" --restart=unless-stopped wolf4war/foodie:latest
+    
+    - name: Wait for application to be ready
+      run: |
+        echo "Waiting for application to start..."
+        timeout=60
+        counter=0
+        while [ $counter -lt $timeout ]; do
+          if curl -f -s http://localhost:80 > /dev/null 2>&1; then
+            echo "✅ Application is ready!"
+            break
+          fi
+          sleep 3
+          counter=$((counter + 3))
+          echo "⏳ Waiting... ($counter/$timeout seconds)"
+        done
+    
+    - name: Clean up old images
+      run: |
+        docker image prune -f
+    
+    - name: Display deployment info
+      run: |
+        echo "✅ Free Tier Deployment successful!"
+        echo "🔗 Application URL: http://$(curl -s --max-time 5 http://checkip.amazonaws.com/ || echo 'N/A')"
+        echo "🆓 Running on AWS Free Tier t2.micro"

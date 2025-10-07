@@ -19,6 +19,6 @@ jobs:
       run: echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
       
     - name: Build the Docker image
-      run: docker build -t foodie .
+      run: docker build -t wolf4war/foodie:latest .
     - name: Push to DockerHub
       run: docker push wolf4war/foodie:latest

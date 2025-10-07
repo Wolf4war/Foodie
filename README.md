@@ -269,6 +269,83 @@ The application features a modern, responsive design:
 - Add user ratings and reviews
 - Implement advanced filtering (dietary restrictions, etc.)
 
+## ☁️ AWS Infrastructure & CI/CD
+
+This project includes complete AWS infrastructure setup using Terraform for production deployment with GitHub Actions CI/CD.
+
+### 🏗️ Infrastructure Components
+
+- **Ubuntu EC2 Instance** - Pre-configured with Docker, Node.js, and GitHub Actions runner
+- **VPC & Networking** - Secure virtual private cloud with public subnet
+- **Security Groups** - Allow HTTP/HTTPS traffic and SSH access
+- **Elastic IP** - Static IP address for consistent access
+- **Auto-configured CI/CD** - Self-hosted GitHub Actions runner ready for deployment
+
+### 🚀 Quick AWS Setup
+
+1. **Navigate to infrastructure directory:**
+   ```bash
+   cd infrastructure
+   chmod +x setup-aws.sh
+   ./setup-aws.sh
+   ```
+
+2. **Or manually with Terraform:**
+   ```bash
+   cd infrastructure/terraform
+   cp terraform.tfvars.example terraform.tfvars
+   # Edit terraform.tfvars with your values
+   terraform init
+   terraform plan
+   terraform apply
+   ```
+
+3. **Connect to your server:**
+   ```bash
+   ssh -i ~/.ssh/id_rsa ubuntu@<PUBLIC_IP>
+   ```
+
+4. **Set up GitHub Actions runner:**
+   ```bash
+   cd /home/ubuntu/actions-runner
+   ./config.sh --url https://github.com/Wolf4war/Foodie --token <YOUR_TOKEN>
+   ./run.sh
+   ```
+
+### 📊 Infrastructure Features
+
+- **Pre-installed Software**: Docker, Node.js 18, Nginx, Git
+- **GitHub Actions Ready**: Self-hosted runner with automatic deployment
+- **Security Configured**: SSH access, HTTP/HTTPS traffic allowed
+- **AWS Free Tier**: $0/month for first 12 months with t2.micro instance
+- **Monitoring Ready**: Health checks and logging configured
+
+### 🔄 Automated Deployment
+
+The repository includes GitHub Actions workflow that automatically:
+- Runs tests on push to master/main branch
+- Builds the application
+- Deploys to the self-hosted AWS runner
+- Updates the running Docker containers
+- Performs health checks
+
+### 📁 Infrastructure Files
+
+```
+infrastructure/
+├── terraform/
+│   ├── main.tf              # Main Terraform configuration
+│   ├── variables.tf         # Variable definitions
+│   ├── outputs.tf           # Output values
+│   ├── user_data.sh         # Server setup script
+│   ├── terraform.tfvars.example # Configuration template
+│   └── README.md            # Detailed setup instructions
+├── setup-aws.sh             # Quick setup script
+└── deploy.sh                # Manual deployment script
+```
+
+For detailed infrastructure setup instructions, see: [`infrastructure/terraform/README.md`](infrastructure/terraform/README.md)
+
 ## 📄 License
 
 This project is built for educational purposes using the free TheMealDB API.
@@ -276,5 +353,6 @@ This project is built for educational purposes using the free TheMealDB API.
 ---
 
 Made with ❤️ by Wolf4war - **Foodie: Where recipes come to life!**
-< ! - -   C I / C D   T e s t :   1 0 / 0 7 / 2 0 2 5   1 6 : 5 8 : 3 8   - - >  
+< ! - -   C I / C D   T e s t :   1 0 / 0 7 / 2 0 2 5   1 6 : 5 8 : 3 8   - - > 
+ 
  

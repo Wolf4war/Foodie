@@ -1,0 +1,129 @@
+name: Development - CD Deploy
+on:
+  workflow_run:
+    workflows: ["Development - CI Build"]
+    types: [completed]
+    branches: [development]
+  # Manual trigger for debugging
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
+    
+    steps:
+    - name: 🏠 Deployment Started
+      run: |
+        echo "════════════════════════════════════════"
+        echo "🏠 STARTING HOME LAB DEPLOYMENT"
+        echo "════════════════════════════════════════"
+        echo "📍 Server: $(hostname)"
+        echo "🌐 IP: $(curl -s --max-time 5 http://checkip.amazonaws.com/ || echo 'Unknown')"
+        echo "⏰ Time: $(date)"
+        echo "🔄 Event: ${{ github.event_name }}"
+        
+    - name: 🔍 System Check
+      run: |
+        echo "🖥️ System Information:"
+        echo "  CPU: $(nproc) cores"
+        echo "  Memory: $(free -h | grep '^Mem:' | awk '{print $2}')"
+        echo "  Disk: $(df -h / | tail -1 | awk '{print $4}') available"
+        echo "  Docker: $(docker --version)"
+        echo ""
+        
+    - name: 🆓 Memory Optimization
+      run: |
+        echo "🧹 Optimizing memory for t2.micro..."
+        sudo sync && echo 3 | sudo tee /proc/sys/vm/drop_caches || true
+        docker system prune -f || true
+        echo "✅ Memory optimization complete"
+        
+    - name: 📥 Pull Docker Image
+      run: |
+        echo "📥 Pulling latest Docker image..."
+        sudo docker pull wolf4war/foodie:latest
+        echo "✅ Image pulled successfully"
+        
+    - name: 🛑 Stop Existing Container
+      run: |
+        echo "🛑 Stopping existing container..."
+        if sudo docker ps -q -f name=foodie; then
+          sudo docker stop foodie
+          sudo docker rm foodie
+          echo "✅ Existing container removed"
+        else
+          echo "ℹ️ No existing container to remove"
+        fi
+        
+    - name: 🚀 Start New Container
+      run: |
+        echo "🚀 Starting new Foodie container..."
+        sudo docker run -d \
+          -p 443:80 \
+          --name foodie \
+          --memory="800m" \
+          --restart=unless-stopped \
+          wolf4war/foodie:latest
+        echo "✅ Container started successfully"
+        
+    - name: ⏱️ Wait for Container
+      run: |
+        echo "⏱️ Waiting for container to initialize..."
+        sleep 10
+        echo "✅ Wait complete"
+        
+    - name: 🌐 Test Internet Connectivity
+      run: |
+        echo "🌐 Testing container internet access..."
+        if sudo docker exec foodie curl -f -s --max-time 10 https://api.themealdb.com/json/v1/1/categories.json > /dev/null; then
+          echo "✅ Container has internet access"
+        else
+          echo "❌ Internet connectivity test failed"
+          echo "📋 Container logs:"
+          sudo docker logs foodie --tail 10
+        fi
+        
+    - name: 🏥 Health Check
+      run: |
+        echo "🏥 Performing application health check..."
+        timeout=60
+        counter=0
+        
+        while [ $counter -lt $timeout ]; do
+          if curl -f -s http://localhost:443 > /dev/null 2>&1; then
+            echo "✅ Application is responding!"
+            break
+          fi
+          sleep 3
+          counter=$((counter + 3))
+          echo "⏳ Waiting... ($counter/$timeout seconds)"
+        done
+        
+        if [ $counter -ge $timeout ]; then
+          echo "❌ Application health check failed"
+          echo "📋 Container status:"
+          sudo docker ps -f name=foodie
+          echo "📋 Container logs:"
+          sudo docker logs foodie --tail 20
+          exit 1
+        fi
+        
+    - name: 🧹 Cleanup
+      run: |
+        echo "🧹 Cleaning up old images..."
+        docker image prune -f || true
+        echo "✅ Cleanup complete"
+        
+    - name: 🎉 Deployment Success
+      run: |
+        PUBLIC_IP=$(curl -s --max-time 5 http://checkip.amazonaws.com/ || echo 'Unknown')
+        echo "════════════════════════════════════════"
+        echo "🎉 DEPLOYMENT COMPLETED SUCCESSFULLY!"
+        echo "════════════════════════════════════════"
+        echo "🏠 Server: foodie-development"
+        echo "🔗 URL: http://$PUBLIC_IP:443"
+        echo "🐳 Container: foodie (running)"
+        echo "💾 Memory: 800MB limit"
+        echo "🆓 AWS Free Tier t2.micro"
+        echo "════════════════════════════════════════"

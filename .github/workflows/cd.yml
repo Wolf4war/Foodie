@@ -1,8 +1,8 @@
-name: CD Pipeline
+name: Home Machine Test - CD Pipeline
 on:
   workflow_run:
-    workflows: ["CI Pipeline"]
-    branches: ["master"]
+    workflows: ["Home Machine Test - CI Pipeline"]
+    branches: ["development"]
     types:
       - completed
 
@@ -27,6 +27,11 @@ jobs:
     
     - name: Run the Docker image (t2.micro optimized)
       run: sudo docker run -d -p 443:80 --name foodie --memory="800m" --restart=unless-stopped wolf4war/foodie:latest
+    
+    - name: Test internet connectivity from container
+      run: |
+        echo "🌐 Testing internet connectivity from container..."
+        sudo docker exec foodie curl -f -s --max-time 10 https://api.themealdb.com/json/v1/1/categories.json > /dev/null && echo "✅ Container has internet access" || echo "❌ No internet access"
     
     - name: Wait for application to be ready
       run: |

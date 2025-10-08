@@ -5,6 +5,8 @@ on:
     branches: ["development"]
     types:
       - completed
+  # Add manual trigger for testing
+  workflow_dispatch:
 
 jobs:
 
@@ -13,6 +15,12 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     steps:
+    - name: Debug workflow trigger
+      run: |
+        echo "🔍 CD Pipeline triggered by: ${{ github.event_name }}"
+        echo "🔍 Workflow run conclusion: ${{ github.event.workflow_run.conclusion }}"
+        echo "🔍 Branch: ${{ github.event.workflow_run.head_branch }}"
+        
     - name: Free up memory (t2.micro optimization)
       run: |
         echo "🆓 Optimizing for AWS Free Tier t2.micro..."

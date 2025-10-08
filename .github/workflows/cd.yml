@@ -10,7 +10,7 @@ on:
 jobs:
 
   deploy:
-    runs-on: [self-hosted, foodie-development]
+    runs-on: self-hosted
 
     steps:
     - name: Check CI success

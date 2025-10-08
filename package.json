@@ -14,7 +14,6 @@
     "test": "npm run lint:check && npm run format:check"
   },
   "dependencies": {
-    "@sentry/vue": "^10.18.0",
     "@tailwindcss/vite": "^4.1.13",
     "axios": "^1.12.2",
     "tailwindcss": "^4.1.13",

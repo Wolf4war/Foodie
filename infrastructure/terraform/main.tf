@@ -162,7 +162,7 @@ resource "aws_eip" "foodie_eip" {
   domain   = "vpc"
 
   tags = {
-    Name = "foodie-eip"
+    Name = "foodie-development-eip"
     Environment = var.environment
   }
 
@@ -189,7 +189,8 @@ resource "aws_instance" "foodie_server" {
   }))
 
   tags = {
-    Name = "foodie-server"
+    Name = "foodie-development"
     Environment = var.environment
+    # Test deployment with foodie-development runner
   }
 }

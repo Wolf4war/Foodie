@@ -1,0 +1,59 @@
+name: Foodie App - CD Pipeline
+
+on:
+  workflow_run:
+    workflows: ["Foodie App - CI Pipeline"]
+    types:
+      - completed
+  workflow_dispatch: # allows manual run
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    if: >
+      ${{ github.event.workflow_run.conclusion == 'success' ||
+          github.event_name == 'workflow_dispatch' }}
+
+    steps:
+    - name: Show Deployment Context
+      run: |
+        echo "Triggered by workflow: ${{ github.event.workflow_run.name }}"
+        echo "Conclusion: ${{ github.event.workflow_run.conclusion }}"
+        echo "Branch: ${{ github.event.workflow_run.head_branch }}"
+        echo "Repository: ${{ github.repository }}"
+
+    - name: Free up memory (t2.micro optimization)
+      run: |
+        echo "🆓 Optimizing memory for t2.micro..."
+        sudo sync && echo 3 | sudo tee /proc/sys/vm/drop_caches || true
+        docker system prune -f || true
+
+    - name: Pull latest Docker image
+      run: sudo docker pull wolf4war/foodie:latest
+
+    - name: Stop and remove old container
+      run: sudo docker rm -f foodie || true
+
+    - name: Run new container
+      run: |
+        sudo docker run -d -p 443:80 --name foodie --memory="800m" --restart=unless-stopped wolf4war/foodie:latest
+
+    - name: Check app startup
+      run: |
+        echo "⏳ Waiting for app to start..."
+        for i in {1..10}; do
+          if curl -f -s http://localhost:443 > /dev/null; then
+            echo "✅ App is live!"
+            exit 0
+          fi
+          sleep 5
+          echo "Retrying... ($i/10)"
+        done
+        echo "❌ App did not start in time."
+        exit 1
+
+    - name: Display deployment info
+      run: |
+        echo "✅ Deployment completed successfully!"
+        echo "🔗 Public IP: $(curl -s http://checkip.amazonaws.com)"
+        echo "🖥️ Instance: AWS t2.micro"

@@ -1,0 +1,47 @@
+---
+- name: Configure Foodie EC2 Instance
+  hosts: foodie
+  become: yes
+
+  vars:
+    config_file_src: ./config.txt
+    config_file_dest: /opt/config.txt
+    devops_group: devops
+
+  tasks:
+    - name: Ensure devops group exists
+      group:
+        name: "{{ devops_group }}"
+        state: present
+
+    - name: Copy config.txt to /opt/ with devops group permissions
+      copy:
+        src: "{{ config_file_src }}"
+        dest: "{{ config_file_dest }}"
+        owner: root
+        group: "{{ devops_group }}"
+        mode: '0660'
+
+    - name: Install latest PostgreSQL
+      apt:
+        name: postgresql
+        state: latest
+        update_cache: yes
+
+    - name: Ensure PostgreSQL service is enabled and running
+      service:
+        name: postgresql
+        state: started
+        enabled: yes
+
+    - name: Install Nginx web server
+      apt:
+        name: nginx
+        state: present
+        update_cache: yes
+
+    - name: Ensure Nginx is enabled and running
+      service:
+        name: nginx
+        state: started
+        enabled: yes

@@ -1,0 +1,6 @@
+# Sample configuration file for Foodie EC2
+# This file will be copied to /opt/config.txt by Ansible
+# Only users in the devops group will have read/write access
+
+FOODIE_APP_CONFIG=enabled
+DEPLOYMENT_DATE=2025-10-10

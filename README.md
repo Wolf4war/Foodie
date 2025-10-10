@@ -1,358 +1,224 @@
-# Foodie - Recipe Discovery App
+# 🍽️ Foodie - DevOps Implementation Project
 
-A responsive Vue 3 web application built with Vite, TailwindCSS, Vue Router, and Axios that uses TheMealDB API to discover and explore amazing recipes from around the world.
+A complete DevOps implementation showcasing Infrastructure as Code, CI/CD automation, containerization, and Site Reliability Engineering for a Vue.js recipe discovery application.
 
-## 📸 Application Preview
+**Live Application:**
+🔗 [http://98.90.82.234:443]
 
-![Foodie Homepage](./src/assets/Foodie%20Homepage.png)
+---
 
-*Beautiful, responsive design with intuitive search functionality and modern UI*
+## 📋 Table of Contents
 
+- Overview
+- Architecture
+- Version Control System
+- Containerization with Docker
+- Infrastructure as Code (Terraform)
+- CI/CD Pipeline (GitHub Actions)
+- Deployment to AWS EC2
+- Monitoring and Observability
+- Configuration Management (Ansible)
+- Getting Started
+- Challenges & Solutions
+- Future Improvements
+- Author
 
-## ✨ Key Highlights
+---
 
-- 🎨 **Modern Design**: Clean, responsive interface with orange gradient theme
-- 🔍 **Smart Search**: Real-time meal search with autocomplete suggestions
-- 📱 **Mobile-First**: Fully responsive design that works on all devices
-- 🚀 **Fast Performance**: Optimized Vue 3 + Vite build for lightning-fast loading
-- 🐳 **Docker Ready**: Production-ready containerization with Nginx
-- 🌐 **Live Data**: Real-time data from TheMealDB API
+## 🎯 Overview
 
-## 🚀 Features
+Foodie is a Vue.js-based recipe discovery application deployed on AWS EC2 using modern DevOps practices. It demonstrates a full automation pipeline from code commit → deployment → monitoring.
 
-## ✨ Live Demo Features
+![Foodie Homepage](src/assets/Foodie%20Homepage.png)
 
-- 🎨 **Modern UI/UX**: Clean, responsive design with orange gradient theme
-- 🔍 **Smart Search**: Real-time meal search with instant results
-- 📱 **Mobile-First**: Fully responsive across all device sizes
-- 🧭 **Intuitive Navigation**: Easy-to-use header with clear routing
-- 🍽️ **Rich Content**: Detailed meal information with ingredients and instructions
-- 🚀 **Fast Performance**: Optimized with Vite and production-ready Docker setup
+**Tech Stack:**
+- **Frontend:** Vue.js 3, Vite, Tailwind CSS
+- **Cloud:** AWS (EC2, VPC, EIP, Security Groups)
+- **IaC:** Terraform
+- **Containerization:** Docker & Docker Compose
+- **CI/CD:** GitHub Actions (Self-hosted + GitHub-hosted runners)
+- **Monitoring:** Prometheus, Grafana, Alertmanager, Node Exporter, cAdvisor, Blackbox, Portainer
+- **Configuration:** Ansible
 
-## 🚀 Features
+---
 
-### Home Page
-- **Search Functionality**: Search meals by name with real-time results
-- **Responsive Design**: Fully responsive grid layout for meal cards
-- **Quick Suggestions**: Pre-defined search suggestions for better UX
-- **Loading & Error States**: Graceful handling of loading and error scenarios
+## 🏗️ Architecture
 
-### Categories Page  
-- **Browse by Category**: Explore all available meal categories
-- **Category Cards**: Beautiful cards showing category images and descriptions
-- **Direct Navigation**: Click to view all meals within a category
+```mermaid
+graph TD
+    GH[GitHub Repository] --> CI[CI Pipeline]
+    CI --> DH[DockerHub]
+    DH --> CD[CD Pipeline - Self-hosted]
+    CD --> EC2[AWS EC2 Instance]
+    EC2 -->|Docker| Foodie[Foodie App ]
+    EC2 -->|Docker| Monitoring[Monitoring Stack]
+    EC2 -->|Host| PostgreSQL[PostgreSQL]
+    EC2 -->|Host| NGINX[NGINX]
+```
 
-### Meal Details Page
-- **Comprehensive View**: Large images, detailed instructions, and ingredients
-- **Ingredients List**: Complete ingredients with measurements
-- **Video Tutorial**: Embedded YouTube videos when available
-- **Responsive Layout**: Mobile-first design that adapts to desktop
-- **Quick Links**: Navigate to related categories or random meals
+---
 
-### Category Meals Page
-- **Filtered Results**: View all meals within a specific category
-- **Consistent UI**: Same meal card design for familiarity
+## 🧩 Version Control System
 
-## 🛠️ Tech Stack
+- Managed using Git and hosted on GitHub.
+- Organized repository structure:
 
-- **Vue 3** - Progressive JavaScript framework
-- **Vite** - Fast build tool and dev server
-- **Vue Router** - Client-side routing
-- **Axios** - HTTP client for API requests  
-- **TailwindCSS** - Utility-first CSS framework
-- **TheMealDB API** - Free recipe database API
+```
+Foodie/
+├── .github/workflows/
+├── src/
+├── ansible/
+├── infrastructure/
+├── monitoring/
+├── Dockerfile
+├── docker-compose.yml
+└── nginx.conf
+```
 
-## 📱 Responsive Design
+---
 
-The application is built with a mobile-first approach:
-- **Mobile**: Single column layout, stacked content
-- **Tablet**: 2-3 column grids, optimized touch targets
-- **Desktop**: 4+ column grids, hover effects, larger content areas
+## 🐳 Containerization with Docker
 
-## 🎨 Component Architecture
+- Multi-stage Docker build (Node build → Nginx runtime).
+- Optimized final image (~50MB).
+- Docker Compose manages full stack: app + monitoring tools.
+- Container registry: `wolf4war/foodie`.
 
-### Reusable Components
-- `SearchBar.vue` - Search input with validation
-- `MealCard.vue` - Reusable meal display card
-- `LoadingSpinner.vue` - Loading state indicator
-- `ErrorMessage.vue` - Error handling with retry functionality
-- `AppNavigation.vue` - Responsive navigation header
+---
 
-### Views/Pages
-- `Home.vue` - Search and results page
-- `Categories.vue` - Category browsing page
-- `CategoryMeals.vue` - Meals filtered by category
-- `MealDetails.vue` - Detailed meal information
+## 🏗️ Infrastructure as Code (Terraform)
 
-### Services
-- `api.js` - Centralized API service layer
+- AWS EC2, VPC, Subnets, Security Groups, EIP.
+- Automated provisioning via:
+    ```bash
+    terraform init
+    terraform plan
+    terraform apply
+    ```
+- User data automates Docker installation and server prep.
 
-## 🚦 Routes
+---
 
-- `/` - Home page with search functionality
-- `/categories` - Browse all meal categories  
-- `/category/:category` - View meals in specific category
-- `/meal/:id` - Detailed meal information
+## 🔄 CI/CD Pipeline (GitHub Actions)
 
-## 📡 API Integration
+- **CI:** Build, lint, test, and Docker push.
+- **CD:** Deploy to AWS EC2 via self-hosted runner.
+- Secrets managed via GitHub Secrets.
+- Health checks ensure zero failed deployments.
 
-Uses TheMealDB API endpoints:
-- `/search.php?s=` - Search meals by name
-- `/lookup.php?i=ID` - Get meal details by ID
-- `/categories.php` - Get all categories
-- `/filter.php?c=Category` - Filter meals by category
-- `/random.php` - Get random meal
+**Pipeline Flow (Mermaid):**
+```mermaid
+graph TD
+    A[Developer Pushes Code] --> B[GitHub Actions CI]
+    B --> C[Docker Build and Push to DockerHub]
+    C --> D[GitHub Actions CD - Self-hosted]
+    D --> E[EC2 Server Pulls Image]
+    E --> F[Stop Old Container]
+    F --> G[Deploy New Container]
+    G --> H[Run Health Checks]
+    H --> I[Monitoring Stack Active]
+```
 
-## 🎯 Key Features Implemented
+---
 
-### State Management
-- Loading states with beautiful spinners
-- Error handling with retry functionality
-- Responsive search with debouncing
-- Route parameter watching
+## ☁️ Deployment to AWS EC2
 
-### User Experience
-- Smooth hover animations and transitions
-- Consistent color scheme (orange/red gradient theme)
-- Accessible navigation with keyboard support
-- Progressive image loading with lazy loading
+- Deployment handled through CD pipeline → Docker on EC2.
+- Self-hosted GitHub Runner executes the deployment steps.
+- Portainer provides container visibility:
+![Portainer](src/assets/portainer.png)
 
-### Performance
-- Component-based architecture for reusability
-- Efficient API calls with error handling
-- Optimized images with proper sizing
-- Fast client-side routing
+---
+
+## 🧠 Monitoring and Observability
+
+**Stack Includes:**
+
+| Tool              | Purpose                |
+|-------------------|-----------------------|
+| Prometheus        | Metrics collection    |
+| Grafana           | Dashboards            |
+| Alertmanager      | Alerts (email/webhook)|
+| Node Exporter     | Host metrics          |
+| cAdvisor          | Container metrics     |
+| Blackbox Exporter | Endpoint checks       |
+| Portainer         | Docker management     |
+
+- Alerts configured: CPU, Memory, Disk, App health.
+- Grafana dashboards: System, Containers, App metrics.
+- Prometheus targets: All running services registered.
+
+**Screenshots:**
+![Grafana Node Exporter](src/assets/Grafana-Node%20exporter.png)
+![Grafana cAdvisor Foodie Metrics](src/assets/Grafana-cAdvisor%20foodie%20metrics.png)
+![Grafana cAdvisor All Containers](src/assets/Grafana-cAdvisor%20all%20containers%20metrics.png)
+![Grafana Blackbox Exporter](src/assets/Grafana-Blackbox%20exporter.png)
+![Prometheus Alerts](src/assets/Prometheues%20alerts.png)
+
+---
+
+## ⚙️ Configuration Management (Ansible)
+
+Automates VM setup:
+- Creates `devops` group.
+- Installs PostgreSQL and Nginx.
+- Copies `config.txt` to `/opt/` with correct permissions.
+
+**Run the playbook:**
+```bash
+ansible-playbook -i inventory.ini foodie_setup.yml
+```
+
+---
 
 ## 🚀 Getting Started
 
-### Prerequisites
-- **Node.js** (v18+ recommended) - [Download](https://nodejs.org/)
-- **npm** or **yarn** package manager
-- **Docker** (v20+) - [Install Docker](https://docs.docker.com/get-docker/)
-- **Docker Compose** (v2+) - [Install Compose](https://docs.docker.com/compose/install/)
+**Local Setup:**
+```bash
+git clone https://github.com/Wolf4war/Foodie.git
+cd Foodie
+npm install
+npm run dev
+```
 
-### Development Setup
+**Run with Docker Compose:**
+```bash
+docker-compose up -d
+```
 
-1. **Install dependencies:**
-   ```bash
-   npm install
-   ```
-
-2. **Start development server:**
-   ```bash
-   npm run dev
-   ```
-   **Access at**: http://localhost:5173
-
-3. **Build for production:**
-   ```bash
-   npm run build
-   ```
-
-4. **Preview production build:**
-   ```bash
-   npm run preview
-   ```
-
-### 🐳 Docker Deployment
-
-#### Prerequisites
-- Install [Docker](https://docs.docker.com/get-docker/) (v20+ recommended)
-- Install [Docker Compose](https://docs.docker.com/compose/install/) (v2+)
-
-#### Docker Setup Overview
-- **Production container**: Uses Nginx to serve the optimized Vue build
-- **Development container**: Runs Vite dev server with hot reload
-- **Multi-stage build**: Separates build and runtime environments for smaller images
+**Terraform + Ansible Deployment:**
+```bash
+cd infrastructure/terraform
+terraform apply
+cd ../../ansible
+ansible-playbook -i inventory.ini foodie_setup.yml
+```
 
 ---
 
-#### 🚀 Quick Start with Docker Compose
-```bash
-# Build and run production container
-docker-compose up --build
-```
-**Access the app at**: http://localhost:8080
+## 🧩 Challenges & Solutions
 
-#### 🛠️ Manual Docker Commands
-```bash
-# Build the Docker image
-docker build -t foodie-app .
-
-# Run the container
-docker run -d -p 8080:80 --name foodie-production foodie-app
-```
-**Access the app at**: http://localhost:8080
-
-#### 💻 Development with Docker
-```bash
-# Run development environment (Vite hot-reload)
-docker-compose --profile dev up --build foodie-dev
-```
-**Access the app at**: http://localhost:5173
-
-#### 🚢 Production Features
-- **Multi-stage build** for optimized image size (~50MB final image)
-- **Nginx** web server with production-ready configuration
-- **Vue Router history mode** support with proper fallbacks
-- **Gzip compression** enabled for better performance
-- **Security headers** included (X-Frame-Options, CSP, etc.)
-- **Static asset caching** for improved load times
-- **Health check endpoint** at `/health` for monitoring
-
-#### 🔧 Container Management
-```bash
-# Check running containers
-docker ps
-
-# View logs
-docker logs foodie-production
-
-# Stop and remove containers
-docker-compose down
-
-# Rebuild after code changes
-docker-compose up --build
-
-# Test health check
-curl http://localhost:8080/health
-```
-
-#### 🧪 Testing the Application
-Once running, you can test all features:
-
-1. **Search Functionality**: Try searching for "chicken", "pasta", or "cake"
-2. **Categories**: Browse meal categories and click to filter meals
-3. **Meal Details**: Click any meal card to view detailed recipe information
-4. **Navigation**: Test responsive navigation on different screen sizes
-5. **API Integration**: All data is fetched from [TheMealDB API](https://www.themealdb.com/)
-
-**Health Check**: Visit http://localhost:8080/health (should return "healthy")
-
-## 🎯 Live Demo Experience
-
-Once running, you can experience the full functionality:
-
-### 🔍 **Search Experience**
-- Type "chicken", "pasta", or "cake" in the search bar
-- See instant results with beautiful meal cards
-- Click any meal to view detailed recipes
-
-### 📂 **Browse Categories**
-- Navigate to Categories page to see all cuisine types
-- Click any category to filter meals by cuisine
-- Explore different international recipes
-
-### 📄 **Recipe Details**
-- View complete ingredient lists with measurements
-- Follow step-by-step cooking instructions
-- Watch embedded YouTube cooking videos (when available)
-
-## 📸 Screenshots & Demo
-
-The application features a modern, responsive design:
-
-- **Homepage**: Beautiful orange gradient hero section with search functionality
-- **Navigation**: Clean header with star logo and responsive mobile menu
-- **Search Results**: Grid-based meal cards with hover effects
-- **Meal Details**: Full recipe pages with ingredients and instructions
-- **Categories**: Organized browsing by meal categories
-
-*Screenshot shows the development server running at http://localhost:5173*
-
-## 🌟 Future Enhancements
-
-- Add favorites functionality with local storage
-- Implement meal planning features  
-- Add shopping list generation from ingredients
-- Include nutritional information display
-- Add user ratings and reviews
-- Implement advanced filtering (dietary restrictions, etc.)
-
-## ☁️ AWS Infrastructure & CI/CD
-
-This project includes complete AWS infrastructure setup using Terraform for production deployment with GitHub Actions CI/CD.
-
-### 🏗️ Infrastructure Components
-
-- **Ubuntu EC2 Instance** - Pre-configured with Docker, Node.js, and GitHub Actions runner
-- **VPC & Networking** - Secure virtual private cloud with public subnet
-- **Security Groups** - Allow HTTP/HTTPS traffic and SSH access
-- **Elastic IP** - Static IP address for consistent access
-- **Auto-configured CI/CD** - Self-hosted GitHub Actions runner ready for deployment
-
-### 🚀 Quick AWS Setup
-
-1. **Navigate to infrastructure directory:**
-   ```bash
-   cd infrastructure
-   chmod +x setup-aws.sh
-   ./setup-aws.sh
-   ```
-
-2. **Or manually with Terraform:**
-   ```bash
-   cd infrastructure/terraform
-   cp terraform.tfvars.example terraform.tfvars
-   # Edit terraform.tfvars with your values
-   terraform init
-   terraform plan
-   terraform apply
-   ```
-
-3. **Connect to your server:**
-   ```bash
-   ssh -i ~/.ssh/id_rsa ubuntu@<PUBLIC_IP>
-   ```
-
-4. **Set up GitHub Actions runner:**
-   ```bash
-   cd /home/ubuntu/actions-runner
-   ./config.sh --url https://github.com/Wolf4war/Foodie --token <YOUR_TOKEN>
-   ./run.sh
-   ```
-
-### 📊 Infrastructure Features
-
-- **Pre-installed Software**: Docker, Node.js 18, Nginx, Git
-- **GitHub Actions Ready**: Self-hosted runner with automatic deployment
-- **Security Configured**: SSH access, HTTP/HTTPS traffic allowed
-- **AWS Free Tier**: $0/month for first 12 months with t2.micro instance
-- **Monitoring Ready**: Health checks and logging configured
-
-### 🔄 Automated Deployment
-
-The repository includes GitHub Actions workflow that automatically:
-- Runs tests on push to master/main branch
-- Builds the application
-- Deploys to the self-hosted AWS runner
-- Updates the running Docker containers
-- Performs health checks
-
-### 📁 Infrastructure Files
-
-```
-infrastructure/
-├── terraform/
-│   ├── main.tf              # Main Terraform configuration
-│   ├── variables.tf         # Variable definitions
-│   ├── outputs.tf           # Output values
-│   ├── user_data.sh         # Server setup script
-│   ├── terraform.tfvars.example # Configuration template
-│   └── README.md            # Detailed setup instructions
-├── setup-aws.sh             # Quick setup script
-└── deploy.sh                # Manual deployment script
-```
-
-For detailed infrastructure setup instructions, see: [`infrastructure/terraform/README.md`](infrastructure/terraform/README.md)
-
-## 📄 License
-
-This project is built for educational purposes using the free TheMealDB API.
+- **SSH Key Permissions:** Resolved by copying key to WSL home and setting correct permissions.
+- **Ansible Playbook Targeting:** Ensured inventory uses correct user and key path.
+- **Docker Container Health:** Added health checks and resource limits for t2.micro.
+- **Monitoring Integration:** Configured Prometheus and Grafana to auto-discover containers.
 
 ---
 
-Made with ❤️ by Wolf4war - **Foodie: Where recipes come to life!**
-< ! - -   C I / C D   T e s t :   1 0 / 0 7 / 2 0 2 5   1 6 : 5 8 : 3 8   - - > 
- 
- 
+## 🔮 Future Improvements
+
+- Add HTTPS via Let's Encrypt.
+- Containerize PostgreSQL and link to app.
+- Use S3 for Terraform state backend.
+- Enable Slack alert integration.
+- Migrate to ECS or Kubernetes for scaling.
+
+---
+
+## 👤 Author
+
+Wolf4war
+
+---
+
+**Made with ❤️ — Foodie: Where recipes come to life!**

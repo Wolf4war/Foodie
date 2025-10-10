@@ -3,9 +3,11 @@ name: Foodie App - CD Pipeline
 on:
   workflow_run:
     workflows: ["Foodie App - CI Pipeline"]
+    branches:
+      - master
     types:
       - completed
-  workflow_dispatch: # allows manual run
+  workflow_dispatch: # allows manual trigger
 
 jobs:
   deploy:
@@ -36,7 +38,11 @@ jobs:
 
     - name: Run new container
       run: |
-        sudo docker run -d -p 443:80 --name foodie --memory="800m" --restart=unless-stopped wolf4war/foodie:latest
+        sudo docker run -d -p 443:80 \
+          --name foodie \
+          --memory="800m" \
+          --restart=unless-stopped \
+          wolf4war/foodie:latest
 
     - name: Check app startup
       run: |
